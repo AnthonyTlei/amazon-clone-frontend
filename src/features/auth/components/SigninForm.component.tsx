@@ -9,11 +9,38 @@ import {
 } from "@mui/material";
 import { FC, FormEvent } from "react";
 import { Link } from "react-router-dom";
+import useInput from "../../../hooks/input/use-input";
+import { validateEmail } from "../../../shared/utils/validation/email";
+import { validatePasswordLength } from "../../../shared/utils/validation/length";
 
 const SigninFormComponent: FC = () => {
+  const {
+    text: email,
+    shouldDisplayError: emailHasError,
+    textChangeHandler: emailChangeHandler,
+    inputBlurHandler: emailBlurHandler,
+    cleanHandler: emailClearHandler,
+  } = useInput(validateEmail);
+
+  const {
+    text: password,
+    shouldDisplayError: passwordHasError,
+    textChangeHandler: passwordChangeHandler,
+    inputBlurHandler: passwordBlurHandler,
+    cleanHandler: passwordClearHandler,
+  } = useInput(validatePasswordLength);
+
+  const clearForm = () => {
+    emailClearHandler();
+    passwordClearHandler();
+  };
+
   const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form Submitted");
+    if (emailHasError || passwordHasError) return;
+    if (email.length === 0 || password.length === 0) return;
+    console.log("User: ", email, password);
+    clearForm();
   };
 
   return (
@@ -39,7 +66,12 @@ const SigninFormComponent: FC = () => {
               Email
             </InputLabel>
             <TextField
-              type="text"
+              value={email}
+              onChange={emailChangeHandler}
+              onBlur={emailBlurHandler}
+              error={emailHasError}
+              helperText={emailHasError ? "Enter your email" : ""}
+              type="email"
               name="email"
               id="email"
               variant="outlined"
@@ -52,6 +84,15 @@ const SigninFormComponent: FC = () => {
               Password
             </InputLabel>
             <TextField
+              value={password}
+              onChange={passwordChangeHandler}
+              onBlur={passwordBlurHandler}
+              error={passwordHasError}
+              helperText={
+                passwordHasError
+                  ? "Password must be between 6 and 20 characters"
+                  : ""
+              }
               type="password"
               name="password"
               id="password"
@@ -110,8 +151,8 @@ const SigninFormComponent: FC = () => {
           <Button
             variant="contained"
             style={{
-              width: '100%',
-              marginTop: '12px',
+              width: "100%",
+              marginTop: "12px",
               height: "31px",
               backgroundColor: "#f1f1f1",
               color: "black",
