@@ -9,11 +9,78 @@ import {
 } from "@mui/material";
 import { FC, FormEvent } from "react";
 import { Link } from "react-router-dom";
+import useInput from "../../../hooks/input/use-input";
+import {
+  validateNameLength,
+  validatePasswordLength,
+} from "../../../shared/utils/validation/length";
+import { validateEmail } from "../../../shared/utils/validation/email";
+import { NewUser } from "../models/NewUser";
 
 const RegistrationFormComponent: FC = () => {
+  const {
+    text: name,
+    shouldDisplayError: nameHasError,
+    textChangeHandler: nameChangeHandler,
+    inputBlurHandler: nameBlurHandler,
+    cleanHandler: nameClearHandler,
+  } = useInput(validateNameLength);
+
+  const {
+    text: email,
+    shouldDisplayError: emailHasError,
+    textChangeHandler: emailChangeHandler,
+    inputBlurHandler: emailBlurHandler,
+    cleanHandler: emailClearHandler,
+  } = useInput(validateEmail);
+
+  const {
+    text: password,
+    shouldDisplayError: passwordHasError,
+    textChangeHandler: passwordChangeHandler,
+    inputBlurHandler: passwordBlurHandler,
+    cleanHandler: passwordClearHandler,
+  } = useInput(validatePasswordLength);
+
+  const {
+    text: confirmPassword,
+    shouldDisplayError: confirmPasswordHasError,
+    textChangeHandler: confirmPasswordChangeHandler,
+    inputBlurHandler: confirmPasswordBlurHandler,
+    cleanHandler: confirmPasswordClearHandler,
+  } = useInput(validatePasswordLength);
+
+  const clearForm = () => {
+    nameClearHandler();
+    emailClearHandler();
+    passwordClearHandler();
+    confirmPasswordClearHandler();
+  };
+
   const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form Submitted");
+    if (password !== confirmPassword) return;
+    if (
+      nameHasError ||
+      emailHasError ||
+      passwordHasError ||
+      confirmPasswordHasError
+    )
+      return;
+    if (
+      name.length === 0 ||
+      email.length === 0 ||
+      password.length === 0 ||
+      confirmPassword.length === 0
+    )
+      return;
+    const newUser: NewUser = {
+      name,
+      email,
+      password,
+    };
+    console.log("New User: ", newUser);
+    clearForm();
   };
 
   return (
@@ -38,6 +105,11 @@ const RegistrationFormComponent: FC = () => {
             Your name
           </InputLabel>
           <TextField
+            value={name}
+            onChange={nameChangeHandler}
+            onBlur={nameBlurHandler}
+            error={nameHasError}
+            helperText={nameHasError ? "Enter your name" : ""}
             type="text"
             name="name"
             id="name"
@@ -51,7 +123,12 @@ const RegistrationFormComponent: FC = () => {
             Email
           </InputLabel>
           <TextField
-            type="text"
+            value={email}
+            onChange={emailChangeHandler}
+            onBlur={emailBlurHandler}
+            error={emailHasError}
+            helperText={emailHasError ? "Enter your email" : ""}
+            type="email"
             name="email"
             id="email"
             variant="outlined"
@@ -64,6 +141,15 @@ const RegistrationFormComponent: FC = () => {
             Password
           </InputLabel>
           <TextField
+            value={password}
+            onChange={passwordChangeHandler}
+            onBlur={passwordBlurHandler}
+            error={passwordHasError}
+            helperText={
+              passwordHasError
+                ? "Password must be between 6 and 20 characters"
+                : ""
+            }
             type="password"
             name="password"
             id="password"
@@ -78,6 +164,15 @@ const RegistrationFormComponent: FC = () => {
             Re-enter password
           </InputLabel>
           <TextField
+            value={confirmPassword}
+            onChange={confirmPasswordChangeHandler}
+            onBlur={confirmPasswordBlurHandler}
+            error={confirmPassword.length > 0 && password !== confirmPassword}
+            helperText={
+              confirmPassword.length > 0 && password !== confirmPassword
+                ? "Passwords must match"
+                : ""
+            }
             type="password"
             name="confirmPassword"
             id="confirmPassword"
@@ -88,7 +183,7 @@ const RegistrationFormComponent: FC = () => {
             type="submit"
             variant="contained"
             style={{
-              marginTop: '16px',
+              marginTop: "16px",
               height: "31px",
               backgroundColor: "#f0c14b",
               color: "black",
