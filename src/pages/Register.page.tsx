@@ -1,9 +1,12 @@
-import AuthLayout from "../features/auth/components/AuthLayout"
+import AuthLayout from "../features/auth/components/AuthLayout";
+import RegistrationFormComponent from "../features/auth/components/RegistrationForm.component";
 
 const RegisterPage = () => {
   return (
-    <AuthLayout>RegisterPage</AuthLayout>
-  )
-}
+    <AuthLayout>
+      <RegistrationFormComponent/>
+    </AuthLayout>
+  );
+};
 
-export default RegisterPage
+export default RegisterPage;
