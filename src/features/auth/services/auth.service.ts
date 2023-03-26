@@ -1,6 +1,6 @@
 import axios from "axios";
-import { DisplayUser } from "../auth/models/DisplayUser.interface";
-import { NewUser } from "../auth/models/NewUser";
+import { DisplayUser } from "../models/DisplayUser.interface";
+import { NewUser } from "../models/NewUser";
 
 const register = async (newUser: NewUser): Promise<DisplayUser | null> => {
   const response = await axios.post(

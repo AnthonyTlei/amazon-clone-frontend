@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { DisplayUser } from "./models/DisplayUser.interface";
 import { Jwt } from "./models/Jwt";
 import { NewUser } from "./models/NewUser";
-import authService from "../services/auth.service";
+import authService from "./services/auth.service";
 
 interface AsyncState {
   isLoading: boolean;
