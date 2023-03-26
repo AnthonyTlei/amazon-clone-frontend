@@ -3,6 +3,7 @@ import { DisplayUser } from "./models/DisplayUser.interface";
 import { Jwt } from "./models/Jwt";
 import { NewUser } from "./models/NewUser";
 import authService from "./services/auth.service";
+import { RootState } from "../../store";
 
 interface AsyncState {
   isLoading: boolean;
@@ -64,5 +65,11 @@ export const authSlice = createSlice({
       });
   },
 });
+
+export const { reset } = authSlice.actions;
+
+export const selectedUser = (state: RootState) => {
+  return state.auth;
+};
 
 export default authSlice.reducer;
