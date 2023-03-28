@@ -142,6 +142,9 @@ const SigninFormComponent: FC = () => {
                 borderColor: "#a88734 #9c7e31 #846a29",
                 textTransform: "none",
               }}
+              disabled={
+                !validatePasswordLength(password) || !validateEmail(email)
+              }
             >
               Sign-In
             </Button>
