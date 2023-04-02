@@ -17,6 +17,18 @@ root.render(
   </React.StrictMode>
 );
 
+declare global {
+  interface Window {
+    Cypress: any;
+    store: any;
+  }
+}
+
+if (window.Cypress) {
+  console.log("Cypress is running");
+  window.store = store;
+}
+
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

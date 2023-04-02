@@ -201,6 +201,7 @@ const RegistrationFormComponent: FC = () => {
             size="small"
           />
           <Button
+            id="register-btn"
             type="submit"
             variant="contained"
             style={{

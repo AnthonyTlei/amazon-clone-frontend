@@ -14,6 +14,7 @@ const HomePage = () => {
     <div>
       <h1>Home Page</h1>
       <a
+        id="logout-btn"
         onClick={logoutHandler}
         style={{
           backgroundColor: "yellow",

@@ -132,6 +132,7 @@ const SigninFormComponent: FC = () => {
               placeholder="Enter your password"
             />
             <Button
+              id="signin-btn"
               type="submit"
               variant="contained"
               style={{
