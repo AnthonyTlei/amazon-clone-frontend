@@ -11,7 +11,7 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
       alignContent="center"
     >
       <Box display="flex" justifyContent="center" alignItems="center">
-        <img src="amazon-logo.png" alt="amazon-logo" height="40px" />
+        <img src="amazon-logo-black.png" alt="amazon-logo" height="40px" />
       </Box>
       <main>{children}</main>
     </Grid>
