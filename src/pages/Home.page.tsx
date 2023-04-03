@@ -1,11 +1,16 @@
-import { useState } from "react";
 import HeaderComponent from "../features/products/components/Header.component";
 import { useAppSelector, useAppDispatch } from "../hooks/redux/hooks";
 import ProductComponent from "../features/products/components/Product.component";
+import { useEffect } from "react";
+import { getProducts } from "../features/products/productSlice";
 
 const HomePage = () => {
-  const { cart, products } = useAppSelector((state) => state.product);
+  const { products } = useAppSelector((state) => state.product);
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getProducts());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div>
       <HeaderComponent />
